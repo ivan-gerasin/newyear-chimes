@@ -135,7 +135,7 @@ function startVideo() {
     timeToSeek = 0
   }
   if (msToTarget < offsetSeconds*1000) {
-    timeToSeek = offsetSeconds*1000 - msToTarget
+    timeToSeek = (offsetSeconds*1000 - msToTarget)/1000
   }
   player.seekTo(timeToSeek, true);
   player.playVideo();
