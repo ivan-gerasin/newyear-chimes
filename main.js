@@ -139,7 +139,6 @@ function startVideo() {
 }
 
 function unmute() {
-  if (!playerReady || videoStarted) return;
   player?.unMute()
   player.setVolume(100)
   document.querySelector("#soundIndicator").innerText  = "✅"
