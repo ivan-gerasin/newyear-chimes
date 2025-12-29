@@ -1,5 +1,5 @@
 const DEFAULT_VIDEO_ID  = "f5d-g0ondNs"; // Куранты 2024
-const DEFAULT_OFFSET_SECONDS = 70; // Насколько раньше запускаем видео до последнего удара
+const DEFAULT_OFFSET_SECONDS = 0; // Насколько раньше запускаем видео до последнего удара
 
 const countdownEl = document.getElementById("countdown");
 const statusEl = document.getElementById("status");
@@ -37,13 +37,14 @@ function extractVideoId(input) {
     }
   } catch (e) {
     /* not a URL, try raw ID */
+    alert("Что-то не так с ссылкой/идентификатором видео")
   }
 
   if (/^[a-zA-Z0-9_-]{6,}$/u.test(trimmed)) {
     return trimmed;
   }
 
-  return null;
+  return DEFAULT_VIDEO_ID;
 }
 
 function updateVideo(videoId) {
@@ -151,7 +152,7 @@ function handleCustomSchedule(event) {
   const customDate = customTargetInput.value
     ? new Date(customTargetInput.value)
     : nextMidnight();
-  const customOffset = offsetInput.value ? parseInt(offsetInput.value, 10) : DEFAULT_OFFSET_SECONDS;
+  const customOffset = offsetInput.value ? parseInt(offsetInput.value, 0) : DEFAULT_OFFSET_SECONDS;
   const newVideoId = extractVideoId(videoInput.value);
   if (videoInput.value && !newVideoId) {
     videoInput.setCustomValidity("Введите ссылку или идентификатор YouTube.");
