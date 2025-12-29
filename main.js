@@ -100,21 +100,19 @@ function updateSchedule(newTarget, newOffset, newVideoId) {
   updateTexts();
 }
 
-function updateTexts() {
-  startInfoEl.textContent = `Старт видео: ${formatDateTime(startTime)}`;
-  targetInfoEl.textContent = `Ориентир двенадцатого удара: ${formatDateTime(targetTime)}`;
-  statusEl.textContent = `Смещение старта: ${offsetSeconds} сек.`;
-  videoInfoEl.textContent = `Видео: ${currentVideoId}`;
-}
-
 function tick() {
   const now = new Date();
   const msToStart = startTime - now;
+  const msToTarget = targetTime - now;
   if (msToStart > 0) {
     countdownEl.textContent = formatDuration(msToStart);
     videoStarted = false;
   } else {
-    countdownEl.textContent = "Идет трансляция";
+    if (msToTarget > 0) {
+      countdownEl.textContent = `Осталось до полуночи: ${formatDuration(msToTarget)}`;
+    } else {
+      countdownEl.textContent = "С наступившим!";
+    }
     startVideo();
   }
 }
