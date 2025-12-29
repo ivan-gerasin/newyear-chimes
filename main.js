@@ -107,10 +107,10 @@ function tick() {
   const msToTarget = targetTime - now;
   if (msToStart > 0) {
     countdownEl.textContent = formatDuration(msToStart);
-    timeLabelEl.textContent = "Осталось до полуночи:"
     videoStarted = false;
   } else {
     if (msToTarget > 0) {
+      timeLabelEl.textContent = "Осталось до полуночи:"
       countdownEl.textContent = `${formatDuration(msToTarget)}`;
     } else {
       countdownEl.textContent = "С наступившим!";

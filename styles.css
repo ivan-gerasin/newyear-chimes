@@ -97,7 +97,7 @@ main.page {
 }
 
 .countdown {
-  font-size: clamp(36px, 4vw, 64px);
+  font-size: clamp(36px, 4vw, 60px);
   margin: 12px 0 8px;
 }
 
