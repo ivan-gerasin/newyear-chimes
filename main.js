@@ -130,8 +130,16 @@ function startVideo() {
   if (!playerReady || videoStarted) return;
   player.seekTo(0, true);
   player.playVideo();
+
   videoStarted = true;
   toggleSoundButton.hidden = false;
+}
+
+function unmute() {
+  if (!playerReady || videoStarted) return;
+  player?.unMute()
+  player.setVolume(100)
+  document.queryElement("#soundIndicator").innerText  = "✅"
 }
 
 function handleCustomSchedule(event) {
