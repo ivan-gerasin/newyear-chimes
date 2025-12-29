@@ -127,7 +127,17 @@ function startCountdown() {
 
 function startVideo() {
   if (!playerReady || videoStarted) return;
-  player.seekTo(0, true);
+  const now = new Date();
+  const msToStart = startTime - now;
+  const msToTarget = targetTime - now;
+  let timeToSeek = 0
+  if (msToStart > 0) {
+    timeToSeek = 0
+  }
+  if (msToTarget < offsetSeconds*1000) {
+    timeToSeek = offsetSeconds*1000 - msToTarget
+  }
+  player.seekTo(timeToSeek, true);
   player.playVideo();
   try {
     unmute() 
