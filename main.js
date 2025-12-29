@@ -37,7 +37,6 @@ function extractVideoId(input) {
     }
   } catch (e) {
     /* not a URL, try raw ID */
-    alert("Что-то не так с ссылкой/идентификатором видео")
   }
 
   if (/^[a-zA-Z0-9_-]{6,}$/u.test(trimmed)) {
@@ -130,6 +129,12 @@ function startVideo() {
   if (!playerReady || videoStarted) return;
   player.seekTo(0, true);
   player.playVideo();
+  try {
+    unmute() 
+  } catch(e) {
+    //ignore
+  }
+
 
   videoStarted = true;
   toggleSoundButton.hidden = false;
@@ -139,7 +144,7 @@ function unmute() {
   if (!playerReady || videoStarted) return;
   player?.unMute()
   player.setVolume(100)
-  document.queryElement("#soundIndicator").innerText  = "✅"
+  document.querySelector("#soundIndicator").innerText  = "✅"
 }
 
 function handleCustomSchedule(event) {
