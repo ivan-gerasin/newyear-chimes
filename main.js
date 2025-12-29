@@ -126,21 +126,8 @@ function startCountdown() {
   countdownTimer = setInterval(tick, 500);
 }
 
-function ensureMutedAutoplay() {
-  if (player && typeof player.isMuted === "function" && player.isMuted()) {
-    return;
-  }
-  try {
-    player?.mute?.();
-    toggleSoundButton.hidden = false;
-  } catch (e) {
-    /* autoplay policies differ */
-  }
-}
-
 function startVideo() {
   if (!playerReady || videoStarted) return;
-  ensureMutedAutoplay();
   player.seekTo(0, true);
   player.playVideo();
   videoStarted = true;
@@ -200,7 +187,6 @@ function onYouTubeIframeAPIReady() {
     events: {
       onReady: () => {
         playerReady = true;
-        ensureMutedAutoplay();
         startCountdown();
       },
       onStateChange: (event) => {
