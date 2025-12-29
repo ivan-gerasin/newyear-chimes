@@ -1,5 +1,5 @@
 const DEFAULT_VIDEO_ID  = "nfN9muBmSIk"; // Куранты 2024
-const DEFAULT_OFFSET_SECONDS = 60; // Насколько раньше запускаем видео до последнего удара
+const DEFAULT_OFFSET_SECONDS = 120; // Насколько раньше запускаем видео до последнего удара
 
 const countdownEl = document.getElementById("countdown");
 const statusEl = document.getElementById("status");
@@ -12,6 +12,7 @@ const videoInput = document.getElementById("video-input");
 const resetButton = document.getElementById("reset");
 const toggleSoundButton = document.getElementById("toggle-sound");
 const videoInfoEl = document.getElementById("video-info");
+const timeLabelEl = document.getElementById("timelabel")
 
 let player;
 let playerReady = false;
@@ -106,10 +107,11 @@ function tick() {
   const msToTarget = targetTime - now;
   if (msToStart > 0) {
     countdownEl.textContent = formatDuration(msToStart);
+    timeLabelEl.textContent = "Осталось до полуночи:"
     videoStarted = false;
   } else {
     if (msToTarget > 0) {
-      countdownEl.textContent = `Осталось до полуночи: ${formatDuration(msToTarget)}`;
+      countdownEl.textContent = `${formatDuration(msToTarget)}`;
     } else {
       countdownEl.textContent = "С наступившим!";
     }
@@ -212,6 +214,7 @@ function updateTexts() {
   startInfoEl.textContent = `Старт видео: ${formatDateTime(startTime)}`;
   targetInfoEl.textContent = `Ориентир двенадцатого удара: ${formatDateTime(targetTime)}`;
   statusEl.textContent = `Смещение старта: ${offsetSeconds} сек.`;
+  timeLabelEl.textContent = "До старта видео:"
 }
 
 // Expose callback for the YouTube API
