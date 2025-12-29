@@ -1,5 +1,5 @@
-const DEFAULT_VIDEO_ID  = "f5d-g0ondNs"; // Куранты 2024
-const DEFAULT_OFFSET_SECONDS = 0; // Насколько раньше запускаем видео до последнего удара
+const DEFAULT_VIDEO_ID  = "nfN9muBmSIk"; // Куранты 2024
+const DEFAULT_OFFSET_SECONDS = 60; // Насколько раньше запускаем видео до последнего удара
 
 const countdownEl = document.getElementById("countdown");
 const statusEl = document.getElementById("status");
