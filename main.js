@@ -208,6 +208,12 @@ function onYouTubeIframeAPIReady() {
   });
 }
 
+function updateTexts() {
+  startInfoEl.textContent = `Старт видео: ${formatDateTime(startTime)}`;
+  targetInfoEl.textContent = `Ориентир двенадцатого удара: ${formatDateTime(targetTime)}`;
+  statusEl.textContent = `Смещение старта: ${offsetSeconds} сек.`;
+}
+
 // Expose callback for the YouTube API
 window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
 
