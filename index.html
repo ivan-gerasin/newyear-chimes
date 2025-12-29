@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Куранты онлайн</title>
+  <link rel="preconnect" href="https://www.youtube.com" />
+  <link rel="preconnect" href="https://www.google.com" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="page">
+    <section class="panel">
+      <header class="panel__header">
+        <div>
+          <p class="eyebrow">Автоматический запуск</p>
+          <h1 class="title">Куранты онлайн</h1>
+          <p class="subtitle">Видео запускается так, чтобы двенадцатый удар совпал с полночью.</p>
+        </div>
+        <div class="status" id="status"></div>
+      </header>
+
+      <div class="grid">
+        <div class="card">
+          <p class="label">До старта видео</p>
+          <p class="countdown" id="countdown">—</p>
+          <p class="info" id="start-info"></p>
+          <p class="info" id="target-info"></p>
+        </div>
+
+        <div class="card">
+          <p class="label">Тестовый режим</p>
+          <form id="custom-form" class="form">
+            <label class="field">
+              <span>Время двенадцатого удара</span>
+              <input type="datetime-local" id="custom-target" />
+            </label>
+            <label class="field">
+              <span>За сколько секунд до удара запускать видео</span>
+              <input type="number" id="offset" min="10" max="600" />
+            </label>
+            <div class="form__actions">
+              <button type="submit" class="button">Запланировать</button>
+              <button type="button" class="button button--ghost" id="reset">Сбросить</button>
+            </div>
+            <p class="hint">Пустые поля вернут значения по умолчанию.</p>
+          </form>
+        </div>
+      </div>
+
+      <div class="player" id="player-container">
+        <div id="player" aria-label="Видео курантов"></div>
+        <button class="button button--ghost" id="toggle-sound" type="button" hidden>Включить звук</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script src="main.js"></script>
+</body>
+</html>
