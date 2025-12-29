@@ -26,6 +26,7 @@
           <p class="countdown" id="countdown">—</p>
           <p class="info" id="start-info"></p>
           <p class="info" id="target-info"></p>
+          <p class="info" id="video-info"></p>
         </div>
 
         <div class="card">
@@ -39,6 +40,10 @@
               <span>За сколько секунд до удара запускать видео</span>
               <input type="number" id="offset" min="10" max="600" />
             </label>
+            <label class="field">
+              <span>Видео YouTube (ссылка или идентификатор)</span>
+              <input type="text" id="video-input" placeholder="https://youtu.be/…" />
+            </label>            
             <div class="form__actions">
               <button type="submit" class="button">Запланировать</button>
               <button type="button" class="button button--ghost" id="reset">Сбросить</button>

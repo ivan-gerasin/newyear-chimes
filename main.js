@@ -1,4 +1,4 @@
-const VIDEO_ID = "wJelEXaPhJ8"; // Куранты 2024
+const DEFAULT_VIDEO_ID  = "f5d-g0ondNs"; // Куранты 2024
 const DEFAULT_OFFSET_SECONDS = 70; // Насколько раньше запускаем видео до последнего удара
 
 const countdownEl = document.getElementById("countdown");
@@ -8,16 +8,55 @@ const targetInfoEl = document.getElementById("target-info");
 const customForm = document.getElementById("custom-form");
 const customTargetInput = document.getElementById("custom-target");
 const offsetInput = document.getElementById("offset");
+const videoInput = document.getElementById("video-input");
 const resetButton = document.getElementById("reset");
 const toggleSoundButton = document.getElementById("toggle-sound");
+const videoInfoEl = document.getElementById("video-info");
 
 let player;
 let playerReady = false;
 let videoStarted = false;
 let targetTime = nextMidnight();
 let offsetSeconds = DEFAULT_OFFSET_SECONDS;
+let currentVideoId = DEFAULT_VIDEO_ID;
 let startTime = calculateStartTime();
 let countdownTimer;
+
+function extractVideoId(input) {
+  if (!input) return null;
+
+  const trimmed = input.trim();
+
+  try {
+    const url = new URL(trimmed);
+    if (url.hostname.includes("youtu.be")) {
+      return url.pathname.replace("/", "") || null;
+    }
+    if (url.hostname.includes("youtube.com")) {
+      return url.searchParams.get("v");
+    }
+  } catch (e) {
+    /* not a URL, try raw ID */
+  }
+
+  if (/^[a-zA-Z0-9_-]{6,}$/u.test(trimmed)) {
+    return trimmed;
+  }
+
+  return null;
+}
+
+function updateVideo(videoId) {
+  if (!videoId || videoId === currentVideoId) return;
+
+  currentVideoId = videoId;
+  videoStarted = false;
+  toggleSoundButton.hidden = true;
+
+  if (playerReady && typeof player.cueVideoById === "function") {
+    player.cueVideoById(videoId);
+  }
+}
 
 function nextMidnight() {
   const now = new Date();
@@ -53,6 +92,7 @@ function calculateStartTime() {
 function updateSchedule(newTarget, newOffset) {
   targetTime = newTarget ?? targetTime;
   offsetSeconds = Number.isFinite(newOffset) ? newOffset : offsetSeconds;
+  updateVideo(newVideoId);
   startTime = calculateStartTime();
   player?.pauseVideo?.();
   videoStarted = false;
@@ -64,6 +104,7 @@ function updateTexts() {
   startInfoEl.textContent = `Старт видео: ${formatDateTime(startTime)}`;
   targetInfoEl.textContent = `Ориентир двенадцатого удара: ${formatDateTime(targetTime)}`;
   statusEl.textContent = `Смещение старта: ${offsetSeconds} сек.`;
+  videoInfoEl.textContent = `Видео: ${currentVideoId}`;
 }
 
 function tick() {
@@ -111,14 +152,23 @@ function handleCustomSchedule(event) {
     ? new Date(customTargetInput.value)
     : nextMidnight();
   const customOffset = offsetInput.value ? parseInt(offsetInput.value, 10) : DEFAULT_OFFSET_SECONDS;
-  updateSchedule(customDate, customOffset);
+  const newVideoId = extractVideoId(videoInput.value);
+  if (videoInput.value && !newVideoId) {
+    videoInput.setCustomValidity("Введите ссылку или идентификатор YouTube.");
+    videoInput.reportValidity();
+    return;
+  }
+  videoInput.setCustomValidity("");
+
+  updateSchedule(customDate, customOffset, newVideoId ?? DEFAULT_VIDEO_ID);
   startCountdown();
 }
 
 function resetSchedule() {
   customTargetInput.value = "";
   offsetInput.value = "";
-  updateSchedule(nextMidnight(), DEFAULT_OFFSET_SECONDS);
+  videoInput.value = "";
+  updateSchedule(nextMidnight(), DEFAULT_OFFSET_SECONDS, DEFAULT_VIDEO_ID);
   startCountdown();
 }
 
@@ -139,7 +189,7 @@ function onYouTubeIframeAPIReady() {
   player = new YT.Player("player", {
     width: "100%",
     height: "100%",
-    videoId: VIDEO_ID,
+    videoId: currentVideoId,
     playerVars: {
       controls: 1,
       rel: 0,
