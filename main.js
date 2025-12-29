@@ -90,7 +90,7 @@ function calculateStartTime() {
   return new Date(targetTime.getTime() - offsetSeconds * 1000);
 }
 
-function updateSchedule(newTarget, newOffset) {
+function updateSchedule(newTarget, newOffset, newVideoId) {
   targetTime = newTarget ?? targetTime;
   offsetSeconds = Number.isFinite(newOffset) ? newOffset : offsetSeconds;
   updateVideo(newVideoId);
